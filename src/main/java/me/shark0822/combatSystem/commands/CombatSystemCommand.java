@@ -24,7 +24,7 @@ public class CombatSystemCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0) {
-            sender.sendMessage(ChatColor.RED + "사용법: /combatapi <stat|get|set|reset|debug> ...");
+            sender.sendMessage(ChatColor.RED + "사용법: /combatsystem <stat|get|set|reset|debug> ...");
             return true;
         }
 
@@ -42,7 +42,7 @@ public class CombatSystemCommand implements CommandExecutor, TabCompleter {
 
     private void handleStatCommand(CommandSender sender, String[] args) {
         if (args.length < 5) {
-            sender.sendMessage(ChatColor.RED + "사용법: /combatapi stat <엔티티> <스탯타입> <base|temp> <get|set|reset> [값]");
+            sender.sendMessage(ChatColor.RED + "사용법: /combatsystem stat <엔티티> <스탯타입> <base|temp> <get|set|reset> [값]");
             return;
         }
 
@@ -132,7 +132,7 @@ public class CombatSystemCommand implements CommandExecutor, TabCompleter {
 
     private void handleDamageCommand(CommandSender sender, String[] args) {
         if (args.length < 5) {
-            sender.sendMessage(ChatColor.RED + "사용법: /combatapi damage <대상> <대미지타입> <공격타입> <대미지값> [by <공격자>]");
+            sender.sendMessage(ChatColor.RED + "사용법: /combatsystem damage <대상> <대미지타입> <공격타입> <대미지값> [by <공격자>]");
             return;
         }
 

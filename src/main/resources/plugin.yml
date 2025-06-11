@@ -3,5 +3,5 @@ version: '1.21.5'
 main: me.shark0822.combatSystem.CombatSystem
 api-version: '1.21'
 commands:
-  combatapi:
+  combatsystem:
     permission: op
