@@ -1,6 +1,6 @@
 package me.shark0822.combatSystem;
 
-import me.shark0822.combatSystem.commands.CombatAPICommand;
+import me.shark0822.combatSystem.commands.CombatSystemCommand;
 import me.shark0822.combatSystem.events.DamageListener;
 import me.shark0822.combatSystem.stats.StatUtil;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -17,7 +17,7 @@ public final class CombatSystem extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new DamageListener(), this);
 
         if (getCommand("combatapi") != null) {
-            CombatAPICommand cmd = new CombatAPICommand();
+            CombatSystemCommand cmd = new CombatSystemCommand();
             getCommand("combatapi").setExecutor(cmd);
             getCommand("combatapi").setTabCompleter(cmd);
         }

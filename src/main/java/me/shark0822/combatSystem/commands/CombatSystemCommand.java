@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Function;
 
-public class CombatAPICommand implements CommandExecutor, TabCompleter {
+public class CombatSystemCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
