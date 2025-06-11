@@ -1,0 +1,7 @@
+name: CombatSystem
+version: '1.21.5'
+main: me.shark0822.combatAPI.CombatAPI
+api-version: '1.21'
+commands:
+  combatapi:
+    permission: op
