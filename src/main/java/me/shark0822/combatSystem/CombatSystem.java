@@ -22,12 +22,12 @@ public final class CombatSystem extends JavaPlugin {
             getCommand("combatapi").setTabCompleter(cmd);
         }
 
-        getLogger().info("CombatAPI 플러그인이 활성화 되었습니다.");
+        getLogger().info("CombatSystem 플러그인이 활성화 되었습니다.");
     }
 
     @Override
     public void onDisable() {
-        getLogger().info("CombatAPI 플러그인이 비활성화 되었습니다.");
+        getLogger().info("CombatSystem 플러그인이 비활성화 되었습니다.");
     }
 
     public static CombatSystem getInstance() {
