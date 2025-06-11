@@ -1,6 +1,6 @@
 name: CombatSystem
 version: '1.21.5'
-main: me.shark0822.combatAPI.CombatAPI
+main: me.shark0822.combatSystem.CombatAPI
 api-version: '1.21'
 commands:
   combatapi:

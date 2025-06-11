@@ -1,8 +1,8 @@
-package me.shark0822.combatAPI;
+package me.shark0822.combatSystem;
 
-import me.shark0822.combatAPI.commands.CombatAPICommand;
-import me.shark0822.combatAPI.events.DamageListener;
-import me.shark0822.combatAPI.stats.StatUtil;
+import me.shark0822.combatSystem.commands.CombatAPICommand;
+import me.shark0822.combatSystem.events.DamageListener;
+import me.shark0822.combatSystem.stats.StatUtil;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class CombatAPI extends JavaPlugin {

@@ -1,8 +1,8 @@
-package me.shark0822.combatAPI.damage;
+package me.shark0822.combatSystem.damage;
 
-import me.shark0822.combatAPI.commands.DebugMode;
-import me.shark0822.combatAPI.events.PreviousDamageEvent;
-import me.shark0822.combatAPI.stats.DamageReceiver;
+import me.shark0822.combatSystem.commands.DebugMode;
+import me.shark0822.combatSystem.events.PreviousDamageEvent;
+import me.shark0822.combatSystem.stats.DamageReceiver;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;

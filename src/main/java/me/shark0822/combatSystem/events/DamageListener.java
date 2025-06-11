@@ -1,7 +1,7 @@
-package me.shark0822.combatAPI.events;
+package me.shark0822.combatSystem.events;
 
-import me.shark0822.combatAPI.damage.*;
-import me.shark0822.combatAPI.stats.DamageReceiver;
+import me.shark0822.combatSystem.damage.*;
+import me.shark0822.combatSystem.stats.DamageReceiver;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;

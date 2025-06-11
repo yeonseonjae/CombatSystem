@@ -1,4 +1,4 @@
-package me.shark0822.combatAPI.stats;
+package me.shark0822.combatSystem.stats;
 
 import java.util.ArrayList;
 import java.util.List;

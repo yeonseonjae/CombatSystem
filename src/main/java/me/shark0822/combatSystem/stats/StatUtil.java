@@ -1,4 +1,4 @@
-package me.shark0822.combatAPI.stats;
+package me.shark0822.combatSystem.stats;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.plugin.java.JavaPlugin;

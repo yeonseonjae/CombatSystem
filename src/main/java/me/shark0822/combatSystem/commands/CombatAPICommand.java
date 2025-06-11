@@ -1,7 +1,7 @@
-package me.shark0822.combatAPI.commands;
+package me.shark0822.combatSystem.commands;
 
-import me.shark0822.combatAPI.damage.*;
-import me.shark0822.combatAPI.stats.*;
+import me.shark0822.combatSystem.damage.*;
+import me.shark0822.combatSystem.stats.*;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.World;

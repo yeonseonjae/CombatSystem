@@ -1,4 +1,4 @@
-package me.shark0822.combatAPI.commands;
+package me.shark0822.combatSystem.commands;
 
 import org.bukkit.Bukkit;
 

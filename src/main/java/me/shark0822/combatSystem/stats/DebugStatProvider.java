@@ -1,6 +1,6 @@
-package me.shark0822.combatAPI.stats;
+package me.shark0822.combatSystem.stats;
 
-import me.shark0822.combatAPI.commands.DebugMode;
+import me.shark0822.combatSystem.commands.DebugMode;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 

@@ -1,4 +1,4 @@
-package me.shark0822.combatAPI.stats;
+package me.shark0822.combatSystem.stats;
 
 public enum StatType {
     DAMAGE_REDUCTION,

@@ -1,7 +1,7 @@
-package me.shark0822.combatAPI.damage;
+package me.shark0822.combatSystem.damage;
 
-import me.shark0822.combatAPI.commands.DebugMode;
-import me.shark0822.combatAPI.stats.DamageReceiver;
+import me.shark0822.combatSystem.commands.DebugMode;
+import me.shark0822.combatSystem.stats.DamageReceiver;
 import org.bukkit.Bukkit;
 
 public class DamageCalculator {

@@ -1,4 +1,4 @@
-package me.shark0822.combatAPI.damage;
+package me.shark0822.combatSystem.damage;
 
 public enum DamageType {
     NONE,
