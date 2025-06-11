@@ -5,9 +5,9 @@ import me.shark0822.combatSystem.events.DamageListener;
 import me.shark0822.combatSystem.stats.StatUtil;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public final class CombatAPI extends JavaPlugin {
+public final class CombatSystem extends JavaPlugin {
 
-    private static CombatAPI instance;
+    private static CombatSystem instance;
 
     @Override
     public void onEnable() {
@@ -30,7 +30,7 @@ public final class CombatAPI extends JavaPlugin {
         getLogger().info("CombatAPI 플러그인이 비활성화 되었습니다.");
     }
 
-    public static CombatAPI getInstance() {
+    public static CombatSystem getInstance() {
         return instance;
     }
 }
