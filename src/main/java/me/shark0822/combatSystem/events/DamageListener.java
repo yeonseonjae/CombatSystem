@@ -55,7 +55,7 @@ public class DamageListener implements Listener {
         }
 
         event.setDamage(1e-6);
-        HealthManager.applyDamage(target, preEvent.getFinalDamage());
+        HealthManager.applyDamage(target, damager, preEvent.getFinalDamage());
     }
 
     private AttackType getAttackType(EntityDamageEvent event) {

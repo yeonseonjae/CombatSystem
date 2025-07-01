@@ -20,11 +20,9 @@ public class DamageApplier {
         if (!(target instanceof LivingEntity targetEntity) || instance == null) return;
 
         if (isProcessing(target)) {
-            Bukkit.getLogger().info("[CombatAPI][DamageApplier] 이미 피해 처리 중인 엔티티: " + target.getName());
+            Bukkit.getLogger().info("[CombatSystem][DamageApplier] 이미 피해 처리 중인 엔티티: " + target.getName());
             return;
         }
-
-        markProcessing(target);
 
         try {
             DamageReceiver damagerReceiver = (damager != null) ? new DamageReceiver(damager.getUniqueId()) : null;
@@ -37,10 +35,10 @@ public class DamageApplier {
             CombatDamageEvent combatDamageEvent = new CombatDamageEvent(damager, target, baseDamage, vanillaDamage, finalDamage, damagerReceiver, targetReceiver, instance, EntityDamageEvent.DamageCause.ENTITY_ATTACK);
 
             Bukkit.getPluginManager().callEvent(combatDamageEvent);
-            if (DebugMode.isDebugMode()) Bukkit.getLogger().info("[CombatAPI][DamageApplier] PreviousDamageEvent 호출됨: " + combatDamageEvent);
+            if (DebugMode.isDebugMode()) Bukkit.getLogger().info("[CombatSystem][DamageApplier] PreviousDamageEvent 호출됨: " + combatDamageEvent);
 
             if (combatDamageEvent.isCancelled()) {
-                if (DebugMode.isDebugMode()) Bukkit.getLogger().info("[CombatAPI][DamageApplier] 피해 적용 취소됨");
+                if (DebugMode.isDebugMode()) Bukkit.getLogger().info("[CombatSystem][DamageApplier] 피해 적용 취소됨");
                 return;
             }
 
@@ -48,10 +46,9 @@ public class DamageApplier {
 
             HealthManager.applyDamage(targetEntity, damager, damageToApply);
 
-            if (DebugMode.isDebugMode()) Bukkit.getLogger().info("[CombatAPI][DamageApplier] 실제 피해 적용: " + damageToApply + " 피해량, 대상: " + target.getName());
+            if (DebugMode.isDebugMode()) Bukkit.getLogger().info("[CombatSystem][DamageApplier] 실제 피해 적용: " + damageToApply + " 피해량, 대상: " + target.getName());
         } finally {
-            unmarkProcessing(target);
-            if (DebugMode.isDebugMode()) Bukkit.getLogger().info("[CombatAPI][DamageApplier] 피해 처리 완료: " + target.getName());
+            if (DebugMode.isDebugMode()) Bukkit.getLogger().info("[CombatSystem][DamageApplier] 피해 처리 완료: " + target.getName());
         }
     }
 

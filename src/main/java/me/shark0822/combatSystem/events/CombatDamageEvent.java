@@ -20,8 +20,6 @@ public class CombatDamageEvent extends Event implements Cancellable {
     private double vanillaDamage;
     private double finalDamage;
     private boolean cancelled;
-
-    // 새로 추가: 피해 원인 (DamageCause)
     private EntityDamageEvent.DamageCause cause;
 
     public CombatDamageEvent(Entity damager, Entity entity, double baseDamage, double vanillaDamage, double finalDamage,

@@ -35,7 +35,7 @@ public class StatDamageCalculator {
         double result = Math.max(1e-6, finalDamage);
 
         if (DebugMode.isDebugMode()) {
-            Bukkit.getLogger().info("[CombatAPI][DamageCalculator] 피해 계산 로그:");
+            Bukkit.getLogger().info("[CombatSystem][DamageCalculator] 피해 계산 로그:");
             Bukkit.getLogger().info(" - 피격자: " + defender.getEntity().getName());
             Bukkit.getLogger().info(" - 원본 피해: " + baseDamage);
             Bukkit.getLogger().info(" - 피해 타입: " + type);

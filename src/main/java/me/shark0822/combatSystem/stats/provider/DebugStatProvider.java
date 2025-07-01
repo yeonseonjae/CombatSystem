@@ -32,7 +32,7 @@ public class DebugStatProvider implements StatProvider {
 
         if (DebugMode.isDebugMode()) {
             String name = getEntity() != null ? getEntity().getName() : "Unknown";
-            Bukkit.getLogger().info("[CombatAPI][DebugStatProvider] " + name + "의 " + type + " 기본스탯이 " + current + " → " + value + "로 변경됨");
+            Bukkit.getLogger().info("[CombatSystem][DebugStatProvider] " + name + "의 " + type + " 기본스탯이 " + current + " → " + value + "로 변경됨");
         }
 
         baseStats.put(type, value);
@@ -58,7 +58,7 @@ public class DebugStatProvider implements StatProvider {
 
         if (DebugMode.isDebugMode()) {
             String name = getEntity() != null ? getEntity().getName() : "Unknown";
-            Bukkit.getLogger().info("[CombatAPI][DebugStatProvider] " + name + "의 " + type + " 임시스탯이 " + current + " → " + updated + "로 변경됨");
+            Bukkit.getLogger().info("[CombatSystem][DebugStatProvider] " + name + "의 " + type + " 임시스탯이 " + current + " → " + updated + "로 변경됨");
         }
 
         tempStats.put(type, value);
