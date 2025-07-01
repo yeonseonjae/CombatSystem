@@ -1,13 +1,14 @@
-package me.shark0822.combatSystem.damage;
+package me.shark0822.combatSystem.damage.calculator;
 
 import me.shark0822.combatSystem.commands.DebugMode;
-import me.shark0822.combatSystem.stats.DamageReceiver;
+import me.shark0822.combatSystem.damage.DamageInstance;
+import me.shark0822.combatSystem.damage.type.DamageType;
+import me.shark0822.combatSystem.damage.receiver.DamageReceiver;
 import org.bukkit.Bukkit;
 
-public class DamageCalculator {
+public class StatDamageCalculator {
 
-    public static double calculateFinalDamage(DamageInstance instance, DamageReceiver attacker, DamageReceiver defender) {
-        double baseDamage = instance.getBaseDamage();
+    public static double calculateFinalDamage(double baseDamage, DamageInstance instance, DamageReceiver attacker, DamageReceiver defender) {
         DamageType type = instance.getDamageType();
 
         //피해 증가 (공격자)

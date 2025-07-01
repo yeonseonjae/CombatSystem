@@ -1,11 +1,14 @@
 package me.shark0822.combatSystem.damage;
 
 import me.shark0822.combatSystem.commands.DebugMode;
-import me.shark0822.combatSystem.events.PreviousDamageEvent;
-import me.shark0822.combatSystem.stats.DamageReceiver;
+import me.shark0822.combatSystem.damage.calculator.StatDamageCalculator;
+import me.shark0822.combatSystem.damage.calculator.VanillaDamageCalculator;
+import me.shark0822.combatSystem.events.CombatDamageEvent;
+import me.shark0822.combatSystem.damage.receiver.DamageReceiver;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.event.entity.EntityDamageEvent;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,7 +16,7 @@ import java.util.UUID;
 
 public class DamageApplier {
 
-    public static void applyDamage(Entity damager, Entity target, DamageInstance instance) {
+    public static void applyDamage(Entity target, Entity damager, DamageInstance instance, boolean ignoreArmor, boolean ignoreEnchantments, boolean ignoreResistance) {
         if (!(target instanceof LivingEntity targetEntity) || instance == null) return;
 
         if (isProcessing(target)) {
@@ -28,30 +31,23 @@ public class DamageApplier {
             DamageReceiver targetReceiver = new DamageReceiver(target.getUniqueId());
 
             double baseDamage = instance.getBaseDamage();
+            double vanillaDamage = VanillaDamageCalculator.calculateReducedDamage(targetEntity, baseDamage, EntityDamageEvent.DamageCause.ENTITY_ATTACK, ignoreArmor, ignoreEnchantments, ignoreResistance);
+            double finalDamage = StatDamageCalculator.calculateFinalDamage(vanillaDamage, instance, damagerReceiver, targetReceiver);
 
-            double finalDamage = DamageCalculator.calculateFinalDamage(instance, damagerReceiver, targetReceiver);
+            CombatDamageEvent combatDamageEvent = new CombatDamageEvent(damager, target, baseDamage, vanillaDamage, finalDamage, damagerReceiver, targetReceiver, instance, EntityDamageEvent.DamageCause.ENTITY_ATTACK);
 
-            PreviousDamageEvent preEvent = new PreviousDamageEvent(
-                    damager,
-                    target,
-                    baseDamage,
-                    finalDamage,
-                    damagerReceiver,
-                    targetReceiver,
-                    instance
-            );
+            Bukkit.getPluginManager().callEvent(combatDamageEvent);
+            if (DebugMode.isDebugMode()) Bukkit.getLogger().info("[CombatAPI][DamageApplier] PreviousDamageEvent 호출됨: " + combatDamageEvent);
 
-            Bukkit.getPluginManager().callEvent(preEvent);
-            if (DebugMode.isDebugMode()) Bukkit.getLogger().info("[CombatAPI][DamageApplier] PreviousDamageEvent 호출됨: " + preEvent);
-
-            if (preEvent.isCancelled()) {
+            if (combatDamageEvent.isCancelled()) {
                 if (DebugMode.isDebugMode()) Bukkit.getLogger().info("[CombatAPI][DamageApplier] 피해 적용 취소됨");
                 return;
             }
 
-            double damageToApply = preEvent.getFinalDamage();
+            double damageToApply = combatDamageEvent.getFinalDamage();
 
-            targetEntity.damage(damageToApply, damager);
+            HealthManager.applyDamage(targetEntity, damager, damageToApply);
+
             if (DebugMode.isDebugMode()) Bukkit.getLogger().info("[CombatAPI][DamageApplier] 실제 피해 적용: " + damageToApply + " 피해량, 대상: " + target.getName());
         } finally {
             unmarkProcessing(target);

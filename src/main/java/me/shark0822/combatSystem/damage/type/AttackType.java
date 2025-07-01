@@ -1,4 +1,4 @@
-package me.shark0822.combatSystem.damage;
+package me.shark0822.combatSystem.damage.type;
 
 public enum AttackType {
     PHYSICAL,

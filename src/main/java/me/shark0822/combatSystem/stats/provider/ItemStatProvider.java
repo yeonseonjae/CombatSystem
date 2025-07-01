@@ -1,5 +1,7 @@
-package me.shark0822.combatSystem.stats;
+package me.shark0822.combatSystem.stats.provider;
 
+import me.shark0822.combatSystem.stats.StatType;
+import me.shark0822.combatSystem.stats.StatUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;

@@ -1,13 +1,14 @@
 package me.shark0822.combatSystem.events;
 
 import me.shark0822.combatSystem.damage.DamageInstance;
-import me.shark0822.combatSystem.stats.DamageReceiver;
+import me.shark0822.combatSystem.damage.receiver.DamageReceiver;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.bukkit.event.entity.EntityDamageEvent;
 
-public class PreviousDamageEvent  extends Event implements Cancellable {
+public class CombatDamageEvent extends Event implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
 
     private final Entity damager;
@@ -16,18 +17,25 @@ public class PreviousDamageEvent  extends Event implements Cancellable {
     private DamageReceiver entityReceiver;
     private DamageInstance damageInstance;
     private double baseDamage;
+    private double vanillaDamage;
     private double finalDamage;
     private boolean cancelled;
 
-    public PreviousDamageEvent(Entity damager, Entity entity, double baseDamage, double finalDamage, DamageReceiver damagerReceiver, DamageReceiver entityReceiver,
-                               DamageInstance damageInstance) {
+    // 새로 추가: 피해 원인 (DamageCause)
+    private EntityDamageEvent.DamageCause cause;
+
+    public CombatDamageEvent(Entity damager, Entity entity, double baseDamage, double vanillaDamage, double finalDamage,
+                             DamageReceiver damagerReceiver, DamageReceiver entityReceiver,
+                             DamageInstance damageInstance, EntityDamageEvent.DamageCause cause) {
         this.damager = damager;
         this.entity = entity;
         this.baseDamage = baseDamage;
+        this.vanillaDamage = vanillaDamage;
         this.finalDamage = finalDamage;
         this.damagerReceiver = damagerReceiver;
         this.entityReceiver = entityReceiver;
         this.damageInstance = damageInstance;
+        this.cause = cause;
     }
 
     public Entity getDamager() {
@@ -44,6 +52,14 @@ public class PreviousDamageEvent  extends Event implements Cancellable {
 
     public void setBaseDamage(double baseDamage) {
         this.baseDamage = baseDamage;
+    }
+
+    public double getVanillaDamage() {
+        return vanillaDamage;
+    }
+
+    public void setVanillaDamage(double vanillaDamage) {
+        this.vanillaDamage = vanillaDamage;
     }
 
     public double getFinalDamage() {
@@ -76,6 +92,14 @@ public class PreviousDamageEvent  extends Event implements Cancellable {
 
     public void setDamageInstance(DamageInstance damageInstance) {
         this.damageInstance = damageInstance;
+    }
+
+    public EntityDamageEvent.DamageCause getCause() {
+        return cause;
+    }
+
+    public void setCause(EntityDamageEvent.DamageCause cause) {
+        this.cause = cause;
     }
 
     @Override

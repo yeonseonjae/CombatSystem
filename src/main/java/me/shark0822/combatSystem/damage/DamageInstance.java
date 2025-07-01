@@ -1,5 +1,8 @@
 package me.shark0822.combatSystem.damage;
 
+import me.shark0822.combatSystem.damage.type.AttackType;
+import me.shark0822.combatSystem.damage.type.DamageType;
+
 public class DamageInstance {
 
     private double baseDamage;

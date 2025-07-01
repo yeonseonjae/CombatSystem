@@ -1,7 +1,12 @@
 package me.shark0822.combatSystem.events;
 
 import me.shark0822.combatSystem.damage.*;
-import me.shark0822.combatSystem.stats.DamageReceiver;
+import me.shark0822.combatSystem.damage.calculator.StatDamageCalculator;
+import me.shark0822.combatSystem.damage.calculator.VanillaDamageCalculator;
+import me.shark0822.combatSystem.damage.type.AttackType;
+import me.shark0822.combatSystem.damage.type.DamageType;
+import me.shark0822.combatSystem.damage.receiver.DamageReceiver;
+import me.shark0822.combatSystem.damage.receiver.DamageReceiverRegistry;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -14,54 +19,43 @@ public class DamageListener implements Listener {
     @EventHandler
     public void onEntityDamage(EntityDamageEvent event) {
         Entity entity = event.getEntity();
-
+        if (!(entity instanceof LivingEntity target)) return;
         if (DamageApplier.isProcessing(entity)) return;
 
         double baseDamage = event.getDamage();
+        double vanillaDamage = VanillaDamageCalculator.calculateReducedDamage(target, baseDamage, event.getCause(), false, false, false);
 
         DamageType damageType = DamageType.NONE;
         AttackType attackType = getAttackType(event);
+        DamageInstance instance = new DamageInstance(vanillaDamage, damageType, attackType);
 
         Entity damager = null;
-        DamageReceiver damagerReceiver = null;
+        DamageReceiver attackerReceiver = null;
 
         if (event instanceof EntityDamageByEntityEvent damageByEntityEvent) {
             if (damageByEntityEvent.getDamager() instanceof Projectile projectile) {
-                if (projectile.getShooter() == null) return;
-                if (projectile.getShooter() instanceof Entity) {
-                    damager = (Entity) projectile.getShooter();
-                    damagerReceiver = new DamageReceiver(damager.getUniqueId());
+                if (projectile.getShooter() instanceof Entity shooter) {
+                    damager = shooter;
+                    attackerReceiver = DamageReceiverRegistry.get(shooter.getUniqueId());
                 }
             } else {
                 damager = damageByEntityEvent.getDamager();
-                damagerReceiver = new DamageReceiver(damager.getUniqueId());
+                attackerReceiver = DamageReceiverRegistry.get(damager.getUniqueId());
             }
         }
 
-        DamageInstance instance = new DamageInstance(baseDamage, damageType, attackType);
-        DamageReceiver targetReceiver = new DamageReceiver(entity.getUniqueId());
+        DamageReceiver targetReceiver = DamageReceiverRegistry.get(target.getUniqueId());
+        double finalDamage = StatDamageCalculator.calculateFinalDamage(vanillaDamage, instance, attackerReceiver, targetReceiver);
 
-        double finalDamage = baseDamage;
-
-        PreviousDamageEvent preEvent = new PreviousDamageEvent(
-                damager,
-                entity,
-                baseDamage,
-                finalDamage,
-                damagerReceiver,
-                targetReceiver,
-                instance
-        );
+        CombatDamageEvent preEvent = new CombatDamageEvent(damager, target, baseDamage, vanillaDamage, finalDamage, attackerReceiver, targetReceiver, instance, event.getCause());
         Bukkit.getPluginManager().callEvent(preEvent);
-
         if (preEvent.isCancelled()) {
             event.setCancelled(true);
             return;
         }
 
-        finalDamage = DamageCalculator.calculateFinalDamage(preEvent.getDamageInstance(), damagerReceiver, targetReceiver);
-
-        event.setDamage(finalDamage);
+        event.setDamage(1e-6);
+        HealthManager.applyDamage(target, preEvent.getFinalDamage());
     }
 
     private AttackType getAttackType(EntityDamageEvent event) {

@@ -1,6 +1,12 @@
-package me.shark0822.combatSystem.stats;
+package me.shark0822.combatSystem.damage.receiver;
 
-import me.shark0822.combatSystem.damage.DamageType;
+import me.shark0822.combatSystem.damage.type.DamageType;
+import me.shark0822.combatSystem.stats.*;
+import me.shark0822.combatSystem.stats.modifier.StatModifierHandler;
+import me.shark0822.combatSystem.stats.provider.DebugStatProvider;
+import me.shark0822.combatSystem.stats.provider.StatAggregator;
+import me.shark0822.combatSystem.stats.provider.StatProvider;
+import me.shark0822.combatSystem.stats.provider.StatProviderManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 
@@ -11,6 +17,7 @@ import java.util.UUID;
 public class DamageReceiver {
 
     private final StatAggregator stats;
+    private final StatModifierHandler modifierHandler = new StatModifierHandler();
     private final List<StatProvider> providers;
     public Entity entity;
 
@@ -24,39 +31,37 @@ public class DamageReceiver {
         return entity;
     }
 
+    public StatModifierHandler getStatModifierHandler() {
+        return modifierHandler;
+    }
+
+    public double getFinalStat(StatType stat) {
+        double base = getBaseStat(stat);
+        double mod = modifierHandler.getModifierTotal(stat);
+        return base + mod;
+    }
+
     public double getBaseStat(StatType type) {
         return stats.getBaseStat(type);
     }
 
-    public double getTemporaryStat(StatType type) {
-        return stats.getTemporaryStat(type);
-    }
-
     public double getTotalDamageReduction() {
-        double base = getBaseStat(StatType.DAMAGE_REDUCTION);
-        double temp = getTemporaryStat(StatType.DAMAGE_REDUCTION);
-        return base + temp;
+        return getFinalStat(StatType.DAMAGE_REDUCTION);
     }
 
     public double getTotalReductionIgnored() {
-        double base = getBaseStat(StatType.REDUCTION_IGNORED);
-        double temp = getTemporaryStat(StatType.REDUCTION_IGNORED);
-        return base + temp;
+        return getFinalStat(StatType.REDUCTION_IGNORED);
     }
 
     public double getTakenDamageIncreaseGeneral() {
-        double base = getBaseStat(StatType.TAKEN_DAMAGE_INCREASE);
-        double temp = getTemporaryStat(StatType.TAKEN_DAMAGE_INCREASE);
-        return base + temp;
+        return getFinalStat(StatType.TAKEN_DAMAGE_INCREASE);
     }
 
     public double getTakenDamageIncreaseElemental(DamageType type) {
         if (!isElemental(type)) return 0.0;
 
         StatType stat = StatType.valueOf("TAKEN_DAMAGE_INCREASE_" + type.name());
-        double base = getBaseStat(stat);
-        double temp = getTemporaryStat(stat);
-        return base + temp;
+        return getFinalStat(stat);
     }
 
     public double getTakenDamageMultiplier(DamageType type) {
@@ -67,18 +72,14 @@ public class DamageReceiver {
     }
 
     public double getDamageIncreaseGeneral() {
-        double base = getBaseStat(StatType.DAMAGE_INCREASE);
-        double temp = getTemporaryStat(StatType.DAMAGE_INCREASE);
-        return base + temp;
+        return getFinalStat(StatType.DAMAGE_INCREASE);
     }
 
     public double getDamageIncreaseElemental(DamageType type) {
         if (!isElemental(type)) return 0.0;
 
         StatType specific = StatType.valueOf("DAMAGE_INCREASE_" + type.name());
-        double base = getBaseStat(specific);
-        double temp = getTemporaryStat(specific);
-        return base + temp;
+        return getFinalStat(specific);
     }
 
     public double getDamageMultiplier(DamageType type) {
@@ -99,16 +100,6 @@ public class DamageReceiver {
         for (StatProvider provider : providers) {
             if (provider instanceof DebugStatProvider debugProvider) {
                 debugProvider.setBaseStat(type, value);
-                return;
-            }
-        }
-        throw new UnsupportedOperationException("Setter 지원하지 않는 StatProvider입니다.");
-    }
-
-    public void setTemporaryStat(StatType type, double value) {
-        for (StatProvider provider : providers) {
-            if (provider instanceof DebugStatProvider debugProvider) {
-                debugProvider.setTemporaryStat(type, value);
                 return;
             }
         }
